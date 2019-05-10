@@ -77,8 +77,15 @@ export class HumanShowcaseScreen extends React.Component {
     headerStyle: headerStyles.whiteHeader
   });
 
+  state = {
+    workouts: []
+  };
+
   async componentDidMount() {
-    SwimData.sync();
+    const workouts = await SwimData.sync();
+    this.setState({
+      workouts
+    });
   }
 
   render() {
@@ -191,6 +198,11 @@ export class HumanShowcaseScreen extends React.Component {
                   <Text style={styles.album}>{recent.album}</Text>
                   <Text style={styles.author}>{recent.author}</Text>
                 </View>
+              ))}
+            </ScrollView>
+            <ScrollView>
+              {this.state.workouts.map((workout, index) => (
+                <Text key={index}>{JSON.stringify(workout)}</Text>
               ))}
             </ScrollView>
           </View>
