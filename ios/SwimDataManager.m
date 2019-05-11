@@ -52,15 +52,14 @@ RCT_EXPORT_METHOD(sync:(RCTPromiseResolveBlock)resolve
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           NSPredicate *predicate = [HKQuery predicateForWorkoutsWithWorkoutActivityType:HKWorkoutActivityTypeSwimming];
           
-          // 2. Order the workouts by date
           NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:HKSampleSortIdentifierStartDate ascending:false];
           
-          // 3. Create the query
-          HKSampleQuery *sampleQuery = [[HKSampleQuery alloc] initWithSampleType:[HKWorkoutType workoutType]
-                                                                       predicate:predicate
-                                                                           limit:HKObjectQueryNoLimit
-                                                                 sortDescriptors:@[sortDescriptor]
-                                                                  resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error)
+          HKSampleQuery *sampleQuery = [[HKSampleQuery alloc]
+                                        initWithSampleType:[HKWorkoutType workoutType]
+                                        predicate:predicate
+                                        limit:HKObjectQueryNoLimit
+                                        sortDescriptors:@[sortDescriptor]
+                                        resultsHandler:^(HKSampleQuery *query, NSArray *results, NSError *error)
                                         {
                                           
                                           if(!error && results){
@@ -81,7 +80,6 @@ RCT_EXPORT_METHOD(sync:(RCTPromiseResolveBlock)resolve
                                           }
                                         }];
           
-          // Execute the query
           [self.healthStore executeQuery:sampleQuery];
         });
       }

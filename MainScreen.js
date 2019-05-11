@@ -20,6 +20,8 @@ import {
   systemWeights
 } from "react-native-typography";
 
+import WorkoutWidget from "./WorkoutWidget";
+
 const headerStyles = StyleSheet.create({
   whiteHeader: {
     height: 44,
@@ -53,24 +55,6 @@ const TouchableRoundedImage = ({ style, ...props }) => (
     />
   </TouchableOpacity>
 );
-
-const recents = [
-  {
-    album: "Time Of Mirrors",
-    author: "Chaotic Hook",
-    cover: require("./assets/angel-jimenez-168185_2x.png")
-  },
-  {
-    album: "Last Chances",
-    author: "Seizing Mistake",
-    cover: require("./assets/paul-morris-144777_2x.png")
-  },
-  {
-    album: "No Tales",
-    author: "Misconduct",
-    cover: require("./assets/sasha-freemind-186664_2x.png")
-  }
-];
 
 export class HumanShowcaseScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -177,32 +161,17 @@ export class HumanShowcaseScreen extends React.Component {
             <View style={styles.recentlyPlayedTitleBar}>
               <Text style={styles.recentlyPlayedTitle}>Recent swims</Text>
               <TouchableOpacity>
-                <Text style={styles.seeAll}>See All</Text>
+                <Text style={styles.seeAll}>
+                  See All ({this.state.workouts.length})
+                </Text>
               </TouchableOpacity>
             </View>
             <ScrollView
               horizontal
               contentContainerStyle={styles.recentlyPlayedSongList}
             >
-              {recents.map((recent, index) => (
-                <View
-                  key={recent.album}
-                  style={
-                    index < recents.length - 1 && styles.recentlyPlayedSong
-                  }
-                >
-                  <TouchableRoundedImage
-                    style={styles.recentlyPlayedSongCover}
-                    source={recent.cover}
-                  />
-                  <Text style={styles.album}>{recent.album}</Text>
-                  <Text style={styles.author}>{recent.author}</Text>
-                </View>
-              ))}
-            </ScrollView>
-            <ScrollView>
-              {this.state.workouts.map((workout, index) => (
-                <Text key={index}>{JSON.stringify(workout)}</Text>
+              {this.state.workouts.slice(0, 10).map(w => (
+                <WorkoutWidget workout={w} key={w.index} />
               ))}
             </ScrollView>
           </View>
@@ -336,22 +305,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 12
   },
-  recentlyPlayedSong: {
-    marginRight: 8
-  },
-  recentlyPlayedSongCover: {
-    height: 160,
-    width: 160,
-    borderRadius: 6
-  },
-  album: {
-    ...human.footnoteObject,
-    marginTop: 5
-  },
-  author: {
-    ...human.footnoteObject,
-    color: iOSColors.gray
-  },
+
   touchableRoundedImage: {
     flex: 1,
     height: undefined,
