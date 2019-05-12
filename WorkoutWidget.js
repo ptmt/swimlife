@@ -13,24 +13,6 @@ import { human, iOSColors } from "react-native-typography";
 import LinearGradient from "react-native-linear-gradient";
 import moment from "moment";
 
-const recents = [
-  {
-    album: "Time Of Mirrors",
-    author: "Chaotic Hook",
-    cover: require("./assets/angel-jimenez-168185_2x.png")
-  },
-  {
-    album: "Last Chances",
-    author: "Seizing Mistake",
-    cover: require("./assets/paul-morris-144777_2x.png")
-  },
-  {
-    album: "No Tales",
-    author: "Misconduct",
-    cover: require("./assets/sasha-freemind-186664_2x.png")
-  }
-];
-
 type Workout = {
   index: Number,
   startDate: Number,
@@ -38,22 +20,50 @@ type Workout = {
   duration: Number
 };
 
+function WorkoutLabel({ text }) {
+  return (
+    <Text
+      numberOfLines={1}
+      style={{
+        ...human.caption1WhiteObject,
+        backgroundColor: "darkblue",
+        borderRadius: 2,
+        paddingHorizontal: 4,
+        flex: 0,
+        margin: 3
+      }}
+    >
+      {text}
+      {/*<Text style={{ ...human.caption1WhiteObject }}>{text}</Text>*/}
+    </Text>
+  );
+}
+
 export default function WorkoutWidget({ workout }: { workout: Workout }) {
-  console.log(workout);
   return (
     <TouchableOpacity style={styles.recentlyPlayedSong}>
       <LinearGradient
-        colors={["#B2FEFA", "#0ED2F7"]}
+        colors={["#36D1DC", "#5B86E5"]}
         style={styles.recentlyPlayedSongCover}
       >
-        <Text style={styles.buttonText}>
+        <Text style={styles.widgetHeader}>
           {moment(workout.startDate * 1000)
             .calendar()
-            .toUpperCase()}
+            .toUpperCase()}{" "}
+          ‧ {Math.round(moment.duration(workout.duration * 1000).asMinutes())}{" "}
+          min
         </Text>
-        <Text style={styles.buttonText}>
-          {Math.round(moment.duration(workout.duration * 1000).asMinutes())} min
-        </Text>
+
+        <Text>{workout.lapLength}</Text>
+        {/*<Text style={styles.widgetStat}>*/}
+        {/*  Highlights: <Text style={{ fontSize: 18 }}>16x100</Text>free 28hr,{" "}*/}
+        {/*  <Text style={{ fontSize: 18 }}>50</Text>*/}
+        {/*  HRV*/}
+        {/*</Text>*/}
+        {/*<View style={{ flex: 1, flexWrap: "wrap", flexDirection: "row" }}>*/}
+        {/*  <WorkoutLabel text={"Personal Record"} />*/}
+        {/*  <WorkoutLabel text={"SwimLab"} />*/}
+        {/*</View>*/}
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -84,17 +94,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start"
   },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
-  },
-  buttonText: {
-    fontSize: 16,
+  widgetHeader: {
+    fontSize: 14,
     fontWeight: "600",
     textAlign: "center",
-    margin: 6,
+    margin: 12,
+    color: "white",
     backgroundColor: "transparent"
+  },
+  widgetStat: {
+    ...human.bodyObject,
+
+    marginLeft: 12
   }
 });

@@ -8,10 +8,12 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  ActivityIndicator
 } from "react-native";
 
 import * as SwimData from "./datasource/swimdata";
+import moment from "moment";
 
 import {
   iOSColors,
@@ -68,17 +70,28 @@ export class HumanShowcaseScreen extends React.Component {
   async componentDidMount() {
     const workouts = await SwimData.sync();
     this.setState({
-      workouts
+      workouts,
+      synced: moment()
     });
   }
 
   render() {
+    if (!this.state.synced) {
+      return (
+        <View style={{ alignItems: "center" }}>
+          <ActivityIndicator />
+          <Text style={{ padding: 4 }}>First time syncing all activity...</Text>
+        </View>
+      );
+    }
     return (
       <View style={styles.screenContainer}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.header}>
           <View>
-            <Text style={styles.date}>MONDAY, 27 NOVEMBER</Text>
+            <Text style={styles.date}>
+              LAST SYNCED {this.state.synced.calendar().toUpperCase()}
+            </Text>
             <Text style={iOSUIKit.largeTitleEmphasized}>Swim Progress</Text>
           </View>
           <TouchableOpacity>
@@ -171,7 +184,7 @@ export class HumanShowcaseScreen extends React.Component {
               contentContainerStyle={styles.recentlyPlayedSongList}
             >
               {this.state.workouts.slice(0, 10).map(w => (
-                <WorkoutWidget workout={w} key={w.index} />
+                <WorkoutWidget workout={w} key={w.uuid} />
               ))}
             </ScrollView>
           </View>
