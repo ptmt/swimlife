@@ -184,7 +184,15 @@ export class HumanShowcaseScreen extends React.Component {
               contentContainerStyle={styles.recentlyPlayedSongList}
             >
               {this.state.workouts.slice(0, 10).map(w => (
-                <WorkoutWidget workout={w} key={w.uuid} />
+                <WorkoutWidget
+                  workout={w}
+                  key={w.uuid}
+                  navigateToWorkout={() => {
+                    this.props.navigation.navigate("SwimDetails", {
+                      workout: w
+                    });
+                  }}
+                />
               ))}
             </ScrollView>
           </View>

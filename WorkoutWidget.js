@@ -17,7 +17,9 @@ type Workout = {
   index: Number,
   startDate: Number,
   endDate: Number,
-  duration: Number
+  duration: Number,
+  lapLength: Number,
+  events: Array<any>
 };
 
 function WorkoutLabel({ text }) {
@@ -39,9 +41,17 @@ function WorkoutLabel({ text }) {
   );
 }
 
-export default function WorkoutWidget({ workout }: { workout: Workout }) {
+export default function WorkoutWidget({
+  workout,
+  navigateToWorkout
+}: {
+  workout: Workout
+}) {
   return (
-    <TouchableOpacity style={styles.recentlyPlayedSong}>
+    <TouchableOpacity
+      style={styles.recentlyPlayedSong}
+      onPress={navigateToWorkout}
+    >
       <LinearGradient
         colors={["#36D1DC", "#5B86E5"]}
         style={styles.recentlyPlayedSongCover}
@@ -54,7 +64,8 @@ export default function WorkoutWidget({ workout }: { workout: Workout }) {
           min
         </Text>
 
-        <Text>{workout.lapLength}</Text>
+        <Text>Lap length {workout.lapLength}m</Text>
+        <Text>Events: {workout.events.length}</Text>
         {/*<Text style={styles.widgetStat}>*/}
         {/*  Highlights: <Text style={{ fontSize: 18 }}>16x100</Text>free 28hr,{" "}*/}
         {/*  <Text style={{ fontSize: 18 }}>50</Text>*/}

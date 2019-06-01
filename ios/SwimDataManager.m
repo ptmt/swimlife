@@ -69,8 +69,6 @@ RCT_EXPORT_METHOD(sync:(RCTPromiseResolveBlock)resolve
                                               
                                               events = [workout.workoutEvents  mapObjectsUsingBlock:^(id obj, NSUInteger idx) {
                                                 HKWorkoutEvent *event = (HKWorkoutEvent *)obj;
-                                               
-                                                
                                                 NSDate *startDate, *endDate;
                                                 if (@available(iOS 11.0, *)) {
                                                   startDate = event.dateInterval.startDate;
