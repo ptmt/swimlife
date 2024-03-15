@@ -19,7 +19,8 @@ type Workout = {
   endDate: Number,
   duration: Number,
   lapLength: Number,
-  events: Array<any>
+  events: Array<any>,
+  pacing: String 
 };
 
 function WorkoutLabel({ text }) {
