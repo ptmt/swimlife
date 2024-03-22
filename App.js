@@ -13,4 +13,10 @@ const AppNavigator = createStackNavigator({
   }
 });
 
+/* 
+
+* describe something here
+* and here
+
+*/
 export default createAppContainer(AppNavigator);
